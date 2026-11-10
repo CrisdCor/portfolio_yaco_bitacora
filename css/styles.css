@@ -263,6 +263,8 @@ button { font: inherit; color: inherit; }
   filter: grayscale(.15);
   transition: filter .5s ease, transform .9s var(--ease-turn);
 }
+.frame__img--contain { background: var(--mat); }
+.frame__img--contain img { object-fit: contain; }
 .page:not(.turned):hover .frame__img img { filter: none; transform: scale(1.02); }
 
 /* Pie de página del marco */

@@ -1,7 +1,6 @@
 /*
  * Contenido editable del portafolio.
- * - Las imágenes se cargan desde el CDN de Behance (versión 808px con respaldo a 404px).
- *   Para mejor calidad y control, reemplazar por archivos propios en /assets/projects/.
+ * - Imágenes propias en /assets/projects/<proyecto>/ (01.webp es la portada del proyecto).
  * - excerpt: texto corto del pie de página del marco.
  * - body: párrafos del texto completo (página de notas y lector).
  * - quote (opcional): cita con su fuente.
@@ -26,8 +25,25 @@ window.PORTFOLIO = {
         'En cada ejercicio de mis bitácoras, la estructura y el pulso del trazo (marcado por la precisión del lápiz mecánico y la firmeza del rapidógrafo) se enfrentan al papel para dar paso a una anatomía implacable y a un claroscuro de contrastes profundos.',
         'No hay espacio para el adorno vano ni para la excusa: cada línea es una decisión milimétrica donde la potencia del dibujo y la crudeza del cómic se encuentran, revelando el proceso vivo de quien entiende que el dominio del oficio se construye hoja a hoja, sin atajos.'
       ],
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/9415bf258272671.Y3JvcCwxMDYyLDgzMCw1LDM2NQ.jpeg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/9415bf258272671.Y3JvcCwxMDYyLDgzMCw1LDM2NQ.jpeg'
+      image: 'assets/projects/sketch-book/01.webp',
+      images: [
+        { src: 'assets/projects/sketch-book/01.webp' },
+        { src: 'assets/projects/sketch-book/02.webp' },
+        { src: 'assets/projects/sketch-book/03.webp' },
+        { src: 'assets/projects/sketch-book/04.webp' },
+        { src: 'assets/projects/sketch-book/05.webp' },
+        { src: 'assets/projects/sketch-book/06.webp' },
+        { src: 'assets/projects/sketch-book/07.webp' },
+        { src: 'assets/projects/sketch-book/08.webp' },
+        { src: 'assets/projects/sketch-book/09.webp' },
+        { src: 'assets/projects/sketch-book/10.webp' },
+        { src: 'assets/projects/sketch-book/11.webp' },
+        { src: 'assets/projects/sketch-book/12.webp' },
+        { src: 'assets/projects/sketch-book/13.webp' },
+        { src: 'assets/projects/sketch-book/14.webp' },
+        { src: 'assets/projects/sketch-book/15.webp' },
+        { src: 'assets/projects/sketch-book/16.webp' }
+      ]
     },
     {
       title: 'Disección de Aquiles',
@@ -37,8 +53,15 @@ window.PORTFOLIO = {
         'Esta obra presenta una poderosa reinterpretación visual y conceptual del mítico héroe griego Aquiles, fusionando la grandiosidad de la mitología clásica con una profunda introspección sobre la vulnerabilidad humana y espiritual.',
         '«Disección de Aquiles» subvierte el mito clásico. Si bien la leyenda popular nos habla de su infame punto débil físico en el talón, esta obra realiza una disección metafórica de su ser interno. Nos invita a contemplar lo que yace tras la armadura: la dualidad entre la furia del amor que habita en su pecho y la eternidad silenciosa de su alma.'
       ],
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/8dc19c258117917.Y3JvcCw5ODYsNzcxLDIwNywxNjg.jpg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/8dc19c258117917.Y3JvcCw5ODYsNzcxLDIwNywxNjg.jpg'
+      image: 'assets/projects/diseccion-de-aquiles/01.webp',
+      images: [
+        { src: 'assets/projects/diseccion-de-aquiles/01.webp' },
+        { src: 'assets/projects/diseccion-de-aquiles/02.webp' },
+        { src: 'assets/projects/diseccion-de-aquiles/03.webp' },
+        { src: 'assets/projects/diseccion-de-aquiles/04.webp' },
+        { src: 'assets/projects/diseccion-de-aquiles/05.webp' },
+        { src: 'assets/projects/diseccion-de-aquiles/06.webp' }
+      ]
     },
     {
       title: 'Disección de un café',
@@ -48,8 +71,13 @@ window.PORTFOLIO = {
         'La pieza trasciende el mero estudio académico para convertirse en una profunda metáfora visual. La pintura presenta un torso masculino esculpido con un dominio clásico de la estructura y el volumen, evocando la estética de los torsos de la antigua Grecia y el rigor anatómico.',
         'Sin embargo, este cuerpo no es una fría estatua de mármol; cobra vida y sentido a través de la elección del café como medio pictórico y de la taza que sostiene en su mano. Así, el combustible que despierta al individuo y moviliza su cotidianidad se convierte en la materia misma que da vida y forma al cuerpo, celebrando una unión perfecta entre el esfuerzo, el ritual diario y la maestría artesanal del dibujo.'
       ],
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/86007d258119617.Y3JvcCw3NDQsNTgyLDIxMCwyOTM.jpg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/86007d258119617.Y3JvcCw3NDQsNTgyLDIxMCwyOTM.jpg'
+      image: 'assets/projects/diseccion-de-un-cafe/01.webp',
+      images: [
+        { src: 'assets/projects/diseccion-de-un-cafe/01.webp' },
+        { src: 'assets/projects/diseccion-de-un-cafe/02.webp' },
+        { src: 'assets/projects/diseccion-de-un-cafe/03.webp' },
+        { src: 'assets/projects/diseccion-de-un-cafe/04.webp' }
+      ]
     },
     {
       title: 'León de Fu',
@@ -61,8 +89,14 @@ window.PORTFOLIO = {
         'Desde su profunda simbología, la cabeza del león de Fu trasciende el mero atrezo folclórico para erigirse como un tótem de protección, prosperidad y poder espiritual. Los ojos circulares y sobredimensionados, enmarcados en tonos amarillos y verdes, actúan como vigías que ahuyentan las energías oscuras, mientras que la fuerza contenida en el torso del guerrero simboliza la maestría sobre los instintos más salvajes.',
         'Es una metáfora visual donde el arte tradicional y el vigor físico se funden para recordarnos que el verdadero poder de la ilustración no reside en la mímesis de la realidad, sino en la capacidad de evocar mitos vivos capaces de habitar y transformar el cuerpo de quien los sostiene.'
       ],
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/099801258118803.Y3JvcCwxMDMyLDgwNyw4MSwxNzY.jpg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/099801258118803.Y3JvcCwxMDMyLDgwNyw4MSwxNzY.jpg'
+      image: 'assets/projects/leon-de-fu/01.webp',
+      images: [
+        { src: 'assets/projects/leon-de-fu/01.webp' },
+        { src: 'assets/projects/leon-de-fu/02.webp' },
+        { src: 'assets/projects/leon-de-fu/03.webp' },
+        { src: 'assets/projects/leon-de-fu/04.webp' },
+        { src: 'assets/projects/leon-de-fu/05.webp' }
+      ]
     },
     {
       title: 'Letales',
@@ -73,8 +107,16 @@ window.PORTFOLIO = {
         'Ilustraciones creadas para la marca Anfibio. Una exploración visual donde la fuerza de la calistenia y el crossfit se cruzan con el misticismo de nuestras tribus ancestrales y la energía de la rana dardo.',
         'Trazos dinámicos y actitud indomable para dar vida a la esencia de la marca.'
       ],
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/4e1e7e258014773.Y3JvcCw0MDQsMzE2LDcxMSwyMjI.jpg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/4e1e7e258014773.Y3JvcCw0MDQsMzE2LDcxMSwyMjI.jpg'
+      image: 'assets/projects/letales/01.webp',
+      coverFit: 'contain', // imagen horizontal: se muestra completa en el marco
+      images: [
+        { src: 'assets/projects/letales/01.webp' },
+        { src: 'assets/projects/letales/02.webp' },
+        { src: 'assets/projects/letales/03.webp' },
+        { src: 'assets/projects/letales/04.webp' },
+        { src: 'assets/projects/letales/05.webp' },
+        { src: 'assets/projects/letales/06.webp' }
+      ]
     },
     {
       title: 'Regreso a la Tierra',
@@ -89,8 +131,17 @@ window.PORTFOLIO = {
         ],
         cite: 'Mijaíl Korniénko, entrevista después de su primera misión espacial.'
       },
-      image: 'https://mir-s3-cdn-cf.behance.net/projects/808/edb3bb258187557.Y3JvcCw2NDYsNTA1LDIzNSw0MQ.jpg',
-      fallback: 'https://mir-s3-cdn-cf.behance.net/projects/404/edb3bb258187557.Y3JvcCw2NDYsNTA1LDIzNSw0MQ.jpg'
+      image: 'assets/projects/regreso-a-la-tierra/01.webp',
+      coverFit: 'contain', // imagen horizontal: se muestra completa en el marco
+      images: [
+        { src: 'assets/projects/regreso-a-la-tierra/01.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/02.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/03.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/04.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/05.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/06.webp' },
+        { src: 'assets/projects/regreso-a-la-tierra/07.webp' }
+      ]
     }
   ],
 

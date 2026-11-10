@@ -70,7 +70,7 @@
       '<div class="leaf">' +
         '<div class="leaf__meta"><span>Bitácora</span><b>' + pad(i + 1) + ' / ' + pad(n) + '</b></div>' +
         '<figure class="frame" style="margin:0">' +
-          '<div class="frame__img"><img src="' + p.image + '" data-fallback="' + (p.fallback || '') + '" alt="' + esc(p.title) + '" loading="' + (i < 2 ? 'eager' : 'lazy') + '" decoding="async"></div>' +
+          '<div class="frame__img' + (p.coverFit === 'contain' ? ' frame__img--contain' : '') + '"><img src="' + p.image + '" data-fallback="' + (p.fallback || '') + '" alt="' + esc(p.title) + '" loading="' + (i < 2 ? 'eager' : 'lazy') + '" decoding="async"></div>' +
           '<figcaption class="frame__caption">' +
             '<h2 class="frame__title">' + esc(p.title) + '</h2>' +
             '<span class="frame__num">Nº ' + pad(i + 1) + '</span>' +
