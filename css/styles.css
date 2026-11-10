@@ -602,3 +602,8 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
 
 /* Énfasis en cursiva dentro de títulos → Comic Book */
 .cover__title em, .sheet__title em, .endpaper h2 em { font-family: var(--f-comic); }
+
+/* Títulos en mayúsculas: portada, Acerca de mí y Contacto */
+.cover__title, .sheet__title { text-transform: uppercase; letter-spacing: .01em; }
+.cover__title { font-size: clamp(32px, 4.2vw, 64px); }
+.sheet__title { font-size: clamp(30px, 4.2vw, 52px); }
