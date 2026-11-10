@@ -231,47 +231,6 @@ button { font: inherit; color: inherit; }
 .face--front::before { left: 0; background: linear-gradient(to right, rgba(0,0,0,.08), transparent); }
 .face--back::before  { right: 0; background: linear-gradient(to left, rgba(0,0,0,.08), transparent); }
 
-/* ----- Argollas de la bitácora ----- */
-.book { --ring-gap: 26px; --ring-inset: 20px; --metal-hi: #f4f4f2; --metal: #a9a9a6; --metal-lo: #6f6f6c; }
-:root[data-theme="dark"] .book { --metal-hi: #d9d9d6; --metal: #8a8a87; --metal-lo: #4a4a48; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .book { --metal-hi: #d9d9d6; --metal: #8a8a87; --metal-lo: #4a4a48; }
-}
-/* Perforaciones en cada hoja (giran con la página) */
-.holes {
-  position: absolute; top: 0; bottom: 0; width: 24px; z-index: 3; pointer-events: none;
-  background:
-    radial-gradient(circle, var(--bg) 0 3.4px, rgba(0,0,0,.28) 3.9px, transparent 4.6px)
-    center / 24px var(--ring-gap) repeat-y;
-  -webkit-mask-image: linear-gradient(to bottom, transparent var(--ring-inset), #000 var(--ring-inset), #000 calc(100% - var(--ring-inset)), transparent calc(100% - var(--ring-inset)));
-  mask-image: linear-gradient(to bottom, transparent var(--ring-inset), #000 var(--ring-inset), #000 calc(100% - var(--ring-inset)), transparent calc(100% - var(--ring-inset)));
-}
-/* Margen para que el contenido no quede bajo las perforaciones */
-.face--front:not(:has(.cover)) { padding-left: 16px; }
-.face--back { padding-right: 16px; }
-.face--front .holes { left: 0; }
-.face--back .holes  { right: 0; }
-/* Argollas fijas sobre el lomo */
-.rings { position: absolute; top: 0; bottom: 0; left: 50%; width: 0; z-index: 900; pointer-events: none; }
-.ring {
-  position: absolute; left: -13px; width: 26px; height: 15px;
-  border: 3px solid var(--metal);
-  border-top-color: var(--metal-hi);
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  filter: drop-shadow(0 2px 1.5px rgba(0,0,0,.28));
-  transition: border-color .4s ease;
-}
-.ring::after { /* brillo del alambre */
-  content: ""; position: absolute; left: 22%; right: 22%; top: -3px; height: 1.5px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,.85), transparent);
-  border-radius: 2px;
-}
-.ring::before { /* parte del alambre que entra por la perforación */
-  content: ""; position: absolute; left: -3px; right: -3px; bottom: -2px; height: 3px;
-  background: linear-gradient(to right, var(--metal-lo) 0 3px, transparent 3px calc(100% - 3px), var(--metal-lo) calc(100% - 3px));
-}
-
 /* ----- Página de proyecto (frente) ----- */
 .leaf {
   position: relative; height: 100%;
@@ -570,7 +529,6 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   .book[data-pos] { transform: none; }
   .book::before { display: none; }
   .page { left: 0; width: 100%; }
-  .rings { left: 0; }
   .page.turned { opacity: 0; transition: transform var(--turn) var(--ease-turn), opacity .35s ease calc(var(--turn) * .55); }
   .hint { display: none; }
   .frame__caption .frame__text { grid-column: 1 / -1; }

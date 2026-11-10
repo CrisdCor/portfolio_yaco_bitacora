@@ -124,36 +124,12 @@
     var el = document.createElement('div');
     el.className = 'page';
     el.innerHTML =
-      '<div class="face face--front">' + s.front + '<span class="holes" aria-hidden="true"></span></div>' +
-      '<div class="face face--back" aria-hidden="true">' + s.back + '<span class="holes"></span></div>';
+      '<div class="face face--front">' + s.front + '</div>' +
+      '<div class="face face--back" aria-hidden="true">' + s.back + '</div>';
     el.style.zIndex = total - i;
     book.appendChild(el);
     return el;
   });
-
-  // Argollas: se reparten en número impar y centradas, alineadas con las perforaciones
-  var rings = document.createElement('div');
-  rings.className = 'rings';
-  rings.setAttribute('aria-hidden', 'true');
-  book.appendChild(rings);
-  function layoutRings() {
-    var h = book.clientHeight;
-    if (!h) return;
-    var gap = h < 480 ? 22 : 26;
-    var count = Math.floor((h * 0.9) / gap);
-    if (count % 2 === 0) count--;
-    book.style.setProperty('--ring-gap', gap + 'px');
-    book.style.setProperty('--ring-inset', Math.max(0, (h - (count - 1) * gap) / 2 - 7) + 'px');
-    var html = '';
-    for (var k = 0; k < count; k++) {
-      var y = h / 2 + (k - (count - 1) / 2) * gap;
-      html += '<span class="ring" style="top:' + (y - 15).toFixed(1) + 'px"></span>';
-    }
-    rings.innerHTML = html;
-  }
-  layoutRings();
-  if ('ResizeObserver' in window) new ResizeObserver(layoutRings).observe(book);
-  else window.addEventListener('resize', layoutRings);
 
   // Respaldo de imágenes (808px → 404px)
   book.querySelectorAll('img[data-fallback]').forEach(function (img) {
