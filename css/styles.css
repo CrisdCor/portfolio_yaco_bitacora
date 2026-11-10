@@ -4,9 +4,10 @@
    ========================================================= */
 
 :root {
-  /* Acento (amarillo del personaje de la portada). Ajustar aquí. */
-  --accent: #f2c12e;
-  --accent-ink: #1a1a1a;
+  /* Acento: vino tinto de la marca. Ajustar aquí. */
+  --accent: #7b1e2c;
+  --accent-ink: #ffffff;
+  --accent-soft: #c25764; /* versión clara para fondos oscuros */
 
   --bg: #ecebe6;
   --surface: #f6f5f1;
@@ -35,7 +36,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --accent: #f6c945;
+    --accent: #a32f40;
+    --accent-soft: #d8737f;
     --bg: #0e0e0e;
     --surface: #141414;
     --paper: #1c1c1c;
@@ -51,7 +53,8 @@
   }
 }
 :root[data-theme="dark"] {
-  --accent: #f6c945;
+  --accent: #a32f40;
+  --accent-soft: #d8737f;
   --bg: #0e0e0e;
   --surface: #141414;
   --paper: #1c1c1c;
@@ -102,11 +105,11 @@ button { font: inherit; color: inherit; }
   position: relative; z-index: 0; text-decoration: none; cursor: pointer;
 }
 .topbar__title::after { transition: height .25s var(--ease-turn), opacity .25s; }
-.topbar__title:hover::after { height: 70%; opacity: .8; }
+.topbar__title:hover::after { height: 70%; opacity: .3; }
 .topbar__title:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
 .topbar__title::after {
   content: ""; position: absolute; left: -4px; right: -4px; bottom: 1px; height: 7px;
-  background: var(--accent); opacity: .55; z-index: -1; border-radius: 2px;
+  background: var(--accent); opacity: .22; z-index: -1; border-radius: 2px;
 }
 .topbar__role {
   justify-self: end; font-family: var(--f-mono); font-size: 12px;
@@ -396,7 +399,7 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   background: linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 6px no-repeat;
   padding-bottom: 1px;
 }
-.notes__link:hover { background-size: 100% 100%; }
+.notes__link:hover { background-size: 100% 100%; color: var(--accent-ink); }
 
 /* ----- Portada ----- */
 .cover {
@@ -418,9 +421,9 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   position: relative; margin: 0; font-family: var(--f-serif); font-weight: 400;
   font-size: clamp(38px, 5vw, 76px); line-height: .95;
 }
-.cover__title em { color: var(--accent); }
+.cover__title em { color: var(--accent-soft); }
 .cover__foot { position: relative; display: flex; justify-content: space-between; align-items: end; }
-.cover__note { font-family: var(--f-hand); font-size: 22px; color: var(--accent); }
+.cover__note { font-family: var(--f-hand); font-size: 22px; color: var(--accent-soft); }
 .cover__label { font-family: var(--f-mono); font-size: 11px; opacity: .7; }
 :root[data-theme="dark"] .cover { background: #0a0a0a; color: #ecebe6; border-color: #262626; }
 @media (prefers-color-scheme: dark) {
@@ -470,10 +473,32 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   padding: clamp(28px, 6vw, 64px);
   transition: background-color .4s ease, border-color .4s ease;
 }
+/* Acerca de mí: texto + retrato en degradado */
+.sheet--about {
+  width: min(1080px, 100%);
+  display: grid; grid-template-columns: minmax(0, 1fr) 40%;
+  padding: 0; overflow: hidden;
+}
+.sheet__text { position: relative; padding: clamp(28px, 5vw, 60px); }
+.sheet__photo { position: relative; order: 2; min-height: 100%; }
+.sheet__photo picture, .sheet__photo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sheet__photo img {
+  object-fit: cover; object-position: 50% 25%;
+  filter: grayscale(.2) contrast(1.02);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 22%, #000 55%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 22%, #000 55%);
+}
+.sheet__photo::after { /* velo de marca muy sutil */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, color-mix(in srgb, var(--accent) 18%, transparent), transparent 45%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 55%);
+}
+.sheet--about .annot--about { right: 24px; bottom: 20px; }
 .sheet__kicker { margin: 0 0 18px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
 .sheet__title { margin: 0 0 26px; font-family: var(--f-serif); font-weight: 400; font-size: clamp(34px, 5vw, 60px); line-height: 1; }
 .sheet__title em {
-  background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 65%, transparent) 62%);
+  background: linear-gradient(transparent 62%, color-mix(in srgb, var(--accent) 22%, transparent) 62%);
 }
 .sheet__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .sheet__cols p, .sheet__lead { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink-2); }
@@ -500,7 +525,7 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   display: grid; grid-template-columns: 120px 1fr auto; align-items: center; gap: 12px;
   padding: 16px 4px; text-decoration: none; transition: padding .25s, background-color .25s;
 }
-.contact-list a:hover { padding-left: 14px; background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.contact-list a:hover { padding-left: 14px; background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .contact-list .k { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
 .contact-list .v { font-family: var(--f-serif); font-size: 24px; min-width: 0; overflow-wrap: anywhere; }
 .contact-list .arrow { font-size: 18px; color: var(--ink-3); }
@@ -536,6 +561,14 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
   .gallery__bar { padding: 0 12px 0 16px; gap: 10px; }
   .gallery__scroll { padding: 24px 12px 60px; }
   .sheet__cols { grid-template-columns: 1fr; gap: 14px; }
+  .sheet--about { grid-template-columns: 1fr; grid-template-rows: auto auto; flex-shrink: 0; }
+  .view--about .sheet, .view--contact .sheet { flex-shrink: 0; }
+  .sheet__photo { order: 0; min-height: 0; aspect-ratio: 4 / 3.4; }
+  .sheet__photo img, .sheet__photo::after {
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  }
+  .sheet--about .sheet__text { padding-top: 8px; }
   .annot { display: none; }
   .contact-list a { grid-template-columns: 1fr auto; gap: 4px 12px; }
   .contact-list .k { grid-column: 1 / -1; }
