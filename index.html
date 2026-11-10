@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alexander Corrales Ospina · Bitácora</title>
+  <meta name="description" content="Portafolio-bitácora de Alexander Corrales Ospina, ilustrador. Dibujo estructural, tinta y técnicas al agua." />
+  <meta name="theme-color" content="#f6f5f1" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <script>
+    // Aplica el tema antes de pintar para evitar parpadeo
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  <header class="topbar">
+    <span class="topbar__name">Alexander Corrales Ospina</span>
+    <span class="topbar__title">Mi Portafolio</span>
+    <span class="topbar__role">Ilustrador</span>
+  </header>
+
+  <nav class="sidebar" aria-label="Navegación principal">
+    <ul class="sidebar__list">
+      <li>
+        <a href="#proyectos" class="sidebar__link" data-view="proyectos" aria-label="Proyectos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>
+          <span class="sidebar__tip">Proyectos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#acerca" class="sidebar__link" data-view="acerca" aria-label="Acerca de mí">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>
+          <span class="sidebar__tip">Acerca de mí</span>
+        </a>
+      </li>
+      <li>
+        <a href="#contacto" class="sidebar__link" data-view="contacto" aria-label="Contacto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="m4 7 8 6 8-6"/></svg>
+          <span class="sidebar__tip">Contacto</span>
+        </a>
+      </li>
+    </ul>
+    <button class="sidebar__link theme-toggle" type="button" aria-label="Cambiar tema">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      <span class="sidebar__tip">Cambiar tema</span>
+    </button>
+  </nav>
+
+  <main id="main" class="stage">
+    <!-- PROYECTOS (home) -->
+    <section class="view view--projects is-active" id="view-proyectos" data-view="proyectos" aria-label="Proyectos">
+      <div class="book-wrap">
+        <div class="book" id="book" aria-live="polite"></div>
+      </div>
+      <div class="book-controls">
+        <button class="ctrl" id="prev" type="button" aria-label="Página anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <span class="ctrl__count" id="counter">00 / 00</span>
+        <button class="ctrl" id="next" type="button" aria-label="Página siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+      <p class="hint" id="hint">Desplaza para pasar la página <span aria-hidden="true">→</span></p>
+    </section>
+
+    <!-- ACERCA DE MÍ -->
+    <section class="view view--about" id="view-acerca" data-view="acerca" aria-label="Acerca de mí" hidden>
+      <article class="sheet">
+        <p class="sheet__kicker">Nota personal · Medellín, Colombia</p>
+        <h1 class="sheet__title">Dibujo estructural<br /><em>por encima de las modas.</em></h1>
+        <div class="sheet__cols">
+          <p>Soy ilustrador. Trabajo la línea tradicional con precisión —tinta, portaminas y técnicas al agua— y la llevo al terreno de la identidad visual aplicada.</p>
+          <p>Mi trabajo gira alrededor de la anatomía clásica y el alto contraste, en cómic, ilustración editorial y obra personal. También enseño dibujo, convencido de que la disciplina pesa más que el talento.</p>
+        </div>
+        <ul class="tags">
+          <li>Tinta</li><li>Portaminas</li><li>Acuarela</li><li>Acrílico</li><li>Cómic</li><li>Editorial</li><li>Anatomía</li>
+        </ul>
+        <span class="annot annot--about">— a mano, siempre</span>
+      </article>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="view view--contact" id="view-contacto" data-view="contacto" aria-label="Contacto" hidden>
+      <article class="sheet">
+        <p class="sheet__kicker">Última página · Contacto</p>
+        <h1 class="sheet__title">¿Tienes un proyecto<br /><em>en mente?</em></h1>
+        <p class="sheet__lead">Encargos de ilustración editorial, cómic, identidad visual o clases de dibujo.</p>
+        <ul class="contact-list" id="contact-list"></ul>
+        <span class="annot annot--contact">escríbeme ↗</span>
+      </article>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
