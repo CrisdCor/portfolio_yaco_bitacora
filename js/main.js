@@ -28,16 +28,34 @@
   var projects = data.projects;
   var n = projects.length;
 
+  function bodyHTML(p) {
+    var html = (p.body || []).map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('');
+    if (p.quote) {
+      html +=
+        '<blockquote class="quote">' +
+          p.quote.text.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('') +
+          '<cite>— ' + esc(p.quote.cite) + '</cite>' +
+        '</blockquote>';
+    }
+    if (p.client) html += '<p class="client">' + esc(p.client) + '</p>';
+    return html;
+  }
+
   function notesHTML(p, i) {
     return (
       '<div class="notes">' +
-        '<div>' +
+        '<div class="notes__head">' +
           '<div class="notes__num">' + pad(i + 1) + '<span>.</span></div>' +
-          '<h3 class="notes__title">' + esc(p.title) + '</h3>' +
-          '<p class="notes__hand">entrada de bitácora nº ' + pad(i + 1) + '</p>' +
-          '<ul class="notes__tags">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+          '<div>' +
+            '<h3 class="notes__title">' + esc(p.title) + '</h3>' +
+            '<p class="notes__hand">entrada de bitácora nº ' + pad(i + 1) + '</p>' +
+          '</div>' +
         '</div>' +
-        '<a class="notes__link" href="' + data.behance + '" target="_blank" rel="noopener">Ver en Behance ↗</a>' +
+        '<div class="notes__body scrollable">' + bodyHTML(p) + '</div>' +
+        '<div class="notes__foot">' +
+          '<ul class="notes__tags">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+          '<a class="notes__link" href="' + data.behance + '" target="_blank" rel="noopener">Ver en Behance ↗</a>' +
+        '</div>' +
       '</div>'
     );
   }
@@ -51,9 +69,16 @@
           '<figcaption class="frame__caption">' +
             '<h2 class="frame__title">' + esc(p.title) + '</h2>' +
             '<span class="frame__num">Nº ' + pad(i + 1) + '</span>' +
-            '<p class="frame__text">' + esc(p.caption) + '</p>' +
+            '<p class="frame__text">' + esc(p.excerpt) +
+              ' <button class="read-btn" type="button" aria-label="Leer texto completo de ' + esc(p.title) + '">Leer</button></p>' +
           '</figcaption>' +
         '</figure>' +
+        '<div class="reader" role="dialog" aria-label="' + esc(p.title) + '">' +
+          '<div class="reader__top"><span class="reader__num">Nº ' + pad(i + 1) + '</span>' +
+            '<button class="reader__close" type="button" aria-label="Cerrar">×</button></div>' +
+          '<h3 class="reader__title">' + esc(p.title) + '</h3>' +
+          '<div class="reader__body scrollable">' + bodyHTML(p) + '</div>' +
+        '</div>' +
       '</div>'
     );
   }
@@ -142,6 +167,7 @@
     var target = index + dir;
     if (target < 0 || target > maxIndex) return;
     busy = true;
+    closeReaders();
     var el = dir > 0 ? pageEls[index] : pageEls[index - 1];
     el.classList.add('is-turning');
     el.style.zIndex = total + 2;
@@ -159,8 +185,20 @@
   prevBtn.addEventListener('click', function () { turn(-1); });
   nextBtn.addEventListener('click', function () { turn(1); });
 
+  function closeReaders() {
+    book.querySelectorAll('.reader.is-open').forEach(function (r) { r.classList.remove('is-open'); });
+  }
+
   book.addEventListener('click', function (e) {
-    if (e.target.closest('a')) return;
+    var readBtn = e.target.closest('.read-btn');
+    if (readBtn) {
+      var reader = readBtn.closest('.leaf').querySelector('.reader');
+      reader.classList.add('is-open');
+      reader.querySelector('.reader__close').focus();
+      return;
+    }
+    if (e.target.closest('.reader__close')) { closeReaders(); return; }
+    if (e.target.closest('a, button, .reader, .notes__body')) return;
     var page = e.target.closest('.page');
     if (!page) return;
     turn(page.classList.contains('turned') ? -1 : 1);
@@ -168,7 +206,18 @@
 
   // Rueda / trackpad: un gesto = una página
   var acc = 0, lastWheel = 0, lockUntil = 0;
+  function canScroll(el, dy) {
+    if (!el || el.scrollHeight <= el.clientHeight + 1) return false;
+    return dy > 0 ? el.scrollTop + el.clientHeight < el.scrollHeight - 1 : el.scrollTop > 0;
+  }
+
   document.getElementById('view-proyectos').addEventListener('wheel', function (e) {
+    // Texto largo: deja desplazar el texto antes de pasar la página
+    var sc = e.target.closest('.scrollable');
+    if (sc && Math.abs(e.deltaY) >= Math.abs(e.deltaX) && canScroll(sc, e.deltaY)) {
+      lastWheel = performance.now();
+      return;
+    }
     e.preventDefault();
     var now = performance.now();
     var gap = now - lastWheel;
@@ -196,6 +245,7 @@
 
   document.addEventListener('keydown', function (e) {
     if (activeView !== 'proyectos') return;
+    if (e.key === 'Escape') { closeReaders(); return; }
     if (e.key === 'ArrowRight' || e.key === 'PageDown') turn(1);
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') turn(-1);
   });
