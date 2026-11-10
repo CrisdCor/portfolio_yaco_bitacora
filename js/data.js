@@ -96,8 +96,7 @@ window.PORTFOLIO = {
 
   contact: [
     { label: 'Behance', value: 'AlexanderIlustrador', href: 'https://www.behance.net/AlexanderIlustrador' },
-    // Pendiente: confirmar datos reales
-    { label: 'Correo', value: 'correo@pendiente.com', href: 'mailto:correo@pendiente.com' },
-    { label: 'Instagram', value: '@pendiente', href: '#' }
+    { label: 'Correo', value: 'alexander.academiadearte@gmail.com', href: 'mailto:alexander.academiadearte@gmail.com' },
+    { label: 'Instagram', value: '@alexander_maestroilustrador', href: 'https://www.instagram.com/alexander_maestroilustrador/' }
   ]
 };
