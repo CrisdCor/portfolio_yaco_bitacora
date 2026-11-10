@@ -148,6 +148,7 @@ window.PORTFOLIO = {
   contact: [
     { label: 'Behance', value: 'AlexanderIlustrador', href: 'https://www.behance.net/AlexanderIlustrador' },
     { label: 'Correo', value: 'alexander.academiadearte@gmail.com', href: 'mailto:alexander.academiadearte@gmail.com' },
+    { label: 'WhatsApp', value: '+57 301 426 7340', href: 'https://wa.me/573014267340?text=' + encodeURIComponent('Hola Alexander, vi tu portafolio y me gustaría hablar sobre un proyecto.') },
     { label: 'Instagram', value: '@alexander_maestroilustrador', href: 'https://www.instagram.com/alexander_maestroilustrador/' }
   ]
 };
