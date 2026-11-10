@@ -41,6 +41,11 @@
     return html;
   }
 
+  // Imágenes de la galería: si aún no hay, se usa la portada del proyecto
+  function imagesOf(p) {
+    return p.images && p.images.length ? p.images : [{ src: p.image, fallback: p.fallback }];
+  }
+
   function notesHTML(p, i) {
     return (
       '<div class="notes">' +
@@ -69,16 +74,13 @@
           '<figcaption class="frame__caption">' +
             '<h2 class="frame__title">' + esc(p.title) + '</h2>' +
             '<span class="frame__num">Nº ' + pad(i + 1) + '</span>' +
-            '<p class="frame__text">' + esc(p.excerpt) +
-              ' <button class="read-btn" type="button" aria-label="Leer texto completo de ' + esc(p.title) + '">Leer</button></p>' +
+            '<p class="frame__text">' + esc(p.excerpt) + '</p>' +
+            '<button class="gallery-btn" type="button" data-project="' + i + '" aria-label="Ver imágenes de ' + esc(p.title) + '">' +
+              '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5.5-5 4 3.5 2.5-2 4 3.5"/></svg>' +
+              '<span>Ver imágenes</span><em>' + pad(imagesOf(p).length) + '</em>' +
+            '</button>' +
           '</figcaption>' +
         '</figure>' +
-        '<div class="reader" role="dialog" aria-label="' + esc(p.title) + '">' +
-          '<div class="reader__top"><span class="reader__num">Nº ' + pad(i + 1) + '</span>' +
-            '<button class="reader__close" type="button" aria-label="Cerrar">×</button></div>' +
-          '<h3 class="reader__title">' + esc(p.title) + '</h3>' +
-          '<div class="reader__body scrollable">' + bodyHTML(p) + '</div>' +
-        '</div>' +
       '</div>'
     );
   }
@@ -167,7 +169,6 @@
     var target = index + dir;
     if (target < 0 || target > maxIndex) return;
     busy = true;
-    closeReaders();
     var el = dir > 0 ? pageEls[index] : pageEls[index - 1];
     el.classList.add('is-turning');
     el.style.zIndex = total + 2;
@@ -185,20 +186,34 @@
   prevBtn.addEventListener('click', function () { turn(-1); });
   nextBtn.addEventListener('click', function () { turn(1); });
 
-  function closeReaders() {
-    book.querySelectorAll('.reader.is-open').forEach(function (r) { r.classList.remove('is-open'); });
+  // Volver a la portada: las hojas regresan en cascada
+  function goHome() {
+    if (index === 0 || busy) return;
+    busy = true;
+    var turnedEls = pageEls.slice(0, index).reverse();
+    var step = Math.min(110, 600 / turnedEls.length);
+    turnedEls.forEach(function (el, k) {
+      setTimeout(function () {
+        el.classList.add('is-turning');
+        el.style.zIndex = total + 2 + k;
+        el.classList.remove('turned');
+      }, k * step);
+    });
+    index = 0;
+    setTimeout(function () {
+      pageEls.forEach(function (el) { el.classList.remove('is-turning'); });
+      updateUI();
+      busy = false;
+    }, (turnedEls.length - 1) * step + TURN_MS);
+    counter.textContent = pad(1) + ' / ' + pad(total);
+    prevBtn.disabled = true; nextBtn.disabled = false;
+    book.setAttribute('data-pos', 'start');
   }
 
   book.addEventListener('click', function (e) {
-    var readBtn = e.target.closest('.read-btn');
-    if (readBtn) {
-      var reader = readBtn.closest('.leaf').querySelector('.reader');
-      reader.classList.add('is-open');
-      reader.querySelector('.reader__close').focus();
-      return;
-    }
-    if (e.target.closest('.reader__close')) { closeReaders(); return; }
-    if (e.target.closest('a, button, .reader, .notes__body')) return;
+    var gBtn = e.target.closest('.gallery-btn');
+    if (gBtn) { openGallery(+gBtn.dataset.project, gBtn); return; }
+    if (e.target.closest('a, button, .notes__body')) return;
     var page = e.target.closest('.page');
     if (!page) return;
     turn(page.classList.contains('turned') ? -1 : 1);
@@ -243,9 +258,103 @@
     tx = ty = null;
   });
 
+  /* ================= Galería del proyecto ================= */
+  var gallery = document.createElement('div');
+  gallery.className = 'gallery';
+  gallery.setAttribute('role', 'dialog');
+  gallery.setAttribute('aria-modal', 'true');
+  gallery.hidden = true;
+  gallery.innerHTML =
+    '<div class="gallery__progress"><span></span></div>' +
+    '<header class="gallery__bar">' +
+      '<span class="gallery__label"></span>' +
+      '<span class="gallery__count"></span>' +
+      '<button class="gallery__close" type="button" aria-label="Cerrar galería">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>' +
+      '</button>' +
+    '</header>' +
+    '<div class="gallery__scroll"></div>';
+  document.body.appendChild(gallery);
+
+  var gScroll = gallery.querySelector('.gallery__scroll');
+  var gCount = gallery.querySelector('.gallery__count');
+  var gLabel = gallery.querySelector('.gallery__label');
+  var gProgress = gallery.querySelector('.gallery__progress span');
+  var galleryOpen = false, lastTrigger = null, observer = null;
+
+  function openGallery(i, trigger) {
+    var p = projects[i];
+    var imgs = imagesOf(p);
+    lastTrigger = trigger || null;
+    gLabel.innerHTML = '<b>Nº ' + pad(i + 1) + '</b> ' + esc(p.title);
+    gallery.setAttribute('aria-label', 'Imágenes de ' + p.title);
+    gScroll.innerHTML =
+      '<section class="gallery__intro">' +
+        '<div class="gallery__num">' + pad(i + 1) + '<span>.</span></div>' +
+        '<h2 class="gallery__title">' + esc(p.title) + '</h2>' +
+        '<ul class="notes__tags">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+        '<div class="gallery__text">' + bodyHTML(p) + '</div>' +
+        '<p class="gallery__cue">desliza para ver las imágenes ↓</p>' +
+      '</section>' +
+      imgs.map(function (im, k) {
+        return '<figure class="gallery__item" data-k="' + (k + 1) + '">' +
+          '<img src="' + im.src + '" data-fallback="' + (im.fallback || '') + '" alt="' + esc(p.title + ' — imagen ' + (k + 1)) + '" loading="' + (k < 2 ? 'eager' : 'lazy') + '" decoding="async">' +
+          '<figcaption><span>' + pad(k + 1) + ' / ' + pad(imgs.length) + '</span>' + (im.caption ? esc(im.caption) : '') + '</figcaption>' +
+        '</figure>';
+      }).join('') +
+      (p.images && p.images.length ? '' : '<p class="gallery__pending">Pronto más imágenes de este proyecto.</p>') +
+      '<button class="btn gallery__back" type="button">Volver a la bitácora</button>';
+
+    gScroll.querySelectorAll('img[data-fallback]').forEach(function (img) {
+      img.addEventListener('error', function () {
+        var fb = img.getAttribute('data-fallback');
+        if (fb && img.src !== fb) img.src = fb;
+      }, { once: true });
+    });
+
+    gCount.textContent = '— / ' + pad(imgs.length);
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) gCount.textContent = pad(+en.target.dataset.k) + ' / ' + pad(imgs.length);
+      });
+    }, { root: gScroll, threshold: 0.55 });
+    gScroll.querySelectorAll('.gallery__item').forEach(function (f) { observer.observe(f); });
+
+    gScroll.scrollTop = 0;
+    gProgress.style.transform = 'scaleX(0)';
+    gallery.hidden = false;
+    void gallery.offsetWidth;
+    gallery.classList.add('is-open');
+    document.body.classList.add('gallery-lock');
+    galleryOpen = true;
+    gallery.querySelector('.gallery__close').focus({ preventScroll: true });
+  }
+
+  function closeGallery() {
+    if (!galleryOpen) return;
+    galleryOpen = false;
+    gallery.classList.remove('is-open');
+    document.body.classList.remove('gallery-lock');
+    setTimeout(function () { if (!galleryOpen) gallery.hidden = true; }, 400);
+    if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+  }
+
+  gScroll.addEventListener('scroll', function () {
+    var max = gScroll.scrollHeight - gScroll.clientHeight;
+    gProgress.style.transform = 'scaleX(' + (max > 0 ? gScroll.scrollTop / max : 1) + ')';
+  }, { passive: true });
+
+  gallery.addEventListener('click', function (e) {
+    if (e.target.closest('.gallery__close, .gallery__back')) closeGallery();
+  });
+
   document.addEventListener('keydown', function (e) {
+    if (galleryOpen) {
+      if (e.key === 'Escape') closeGallery();
+      return;
+    }
     if (activeView !== 'proyectos') return;
-    if (e.key === 'Escape') { closeReaders(); return; }
     if (e.key === 'ArrowRight' || e.key === 'PageDown') turn(1);
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') turn(-1);
   });
@@ -281,6 +390,22 @@
     });
   }
 
-  window.addEventListener('hashchange', function () { show(location.hash.slice(1)); });
+  // "Mi Portafolio" → inicio (vista Proyectos, portada del libro)
+  document.querySelector('.topbar__title').addEventListener('click', function (e) {
+    e.preventDefault();
+    closeGallery();
+    if (location.hash !== '#proyectos') history.pushState(null, '', '#proyectos');
+    var wasActive = activeView === 'proyectos';
+    show('proyectos');
+    if (wasActive) goHome();
+    else {
+      // Sin animación si venimos de otra vista
+      pageEls.forEach(function (el) { el.classList.remove('turned', 'is-turning'); });
+      index = 0;
+      updateUI();
+    }
+  });
+
+  window.addEventListener('hashchange', function () { closeGallery(); show(location.hash.slice(1)); });
   show(location.hash.slice(1) || 'proyectos');
 })();
