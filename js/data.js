@@ -11,7 +11,7 @@ window.PORTFOLIO = {
   cover: {
     kicker: 'Bitácora · Vol. 01',
     title: 'Cuaderno de<br><em>ilustración</em>',
-    note: 'tinta · línea · anatomía',
+    note: 'tinta / trazo / cuerpo',
     image:
       'https://mir-s3-cdn-cf.behance.net/49bc8feceb753a728ab653da5684596c/7b730c22-f8a6-4d99-ae31-48d562483525_rwc_0x15x1920x378x1920.jpg?h=4d188955e9da9bdd8a0c4e57a2c07d21'
   },

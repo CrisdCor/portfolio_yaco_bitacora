@@ -53,7 +53,7 @@
           '<div class="notes__num">' + pad(i + 1) + '<span>.</span></div>' +
           '<div>' +
             '<h3 class="notes__title">' + esc(p.title) + '</h3>' +
-            '<p class="notes__hand">entrada de bitácora nº ' + pad(i + 1) + '</p>' +
+            '<p class="notes__hand">entrada ' + pad(i + 1) + '</p>' +
           '</div>' +
         '</div>' +
         '<div class="notes__body scrollable">' + bodyHTML(p) + '</div>' +
@@ -104,7 +104,7 @@
 
   var closingBack =
     '<div class="endpaper"><span class="cover__kicker" style="color:var(--ink-3)">Notas</span>' +
-    '<p style="font-family:var(--f-hand);font-size:24px">— gracias por pasar las páginas.</p></div>';
+    '<p style="font-family:var(--f-hand);font-size:24px">- gracias por hojear este cuaderno</p></div>';
 
   // Hojas: frente / reverso. El reverso de la hoja i acompaña al frente de la hoja i+1.
   var sheets = [{ front: coverHTML, back: notesHTML(projects[0], 0) }];
@@ -294,7 +294,7 @@
         '<h2 class="gallery__title">' + esc(p.title) + '</h2>' +
         '<ul class="notes__tags">' + p.tags.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
         '<div class="gallery__text">' + bodyHTML(p) + '</div>' +
-        '<p class="gallery__cue">desliza para ver las imágenes ↓</p>' +
+        '<p class="gallery__cue">desliza para ver el proceso <span class="sym">↓</span></p>' +
       '</section>' +
       imgs.map(function (im, k) {
         return '<figure class="gallery__item" data-k="' + (k + 1) + '">' +

@@ -4,10 +4,13 @@
    ========================================================= */
 
 /* ---------- Tipografías de marca ---------- */
-@font-face { font-family: 'Mayeka'; src: local('Mayeka Bold Demo'), local('Mayeka Bold'), local('Mayeka'); font-weight: 400 900; font-display: swap; }
-@font-face { font-family: 'Comic Book'; src: local('Comic Book'), local('ComicBook'); font-style: normal; font-display: swap; }
-@font-face { font-family: 'Comic Book'; src: local('Comic Book'), local('ComicBook'); font-style: italic; font-display: swap; }
-@font-face { font-family: 'South Paris'; src: local('South Paris Demo Version'), local('South Paris Demo'), local('South Paris'); font-display: swap; }
+@font-face { font-family: 'Mayeka'; src: url('../assets/fonts/mayeka-bold.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'Comic Book'; src: url('../assets/fonts/comic-book.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Comic Book'; src: url('../assets/fonts/comic-book.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Comic Book'; src: url('../assets/fonts/comic-book-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'South Paris'; src: url('../assets/fonts/south-paris.woff2') format('woff2'); font-display: swap; }
+/* Nota: South Paris (demo) no incluye tildes ni ñ; los textos a mano se redactan sin ellos. */
+.sym { font-family: var(--f-sans); font-size: .8em; }
 
 :root {
   /* Acento: vino tinto de la marca. Ajustar aquí. */
