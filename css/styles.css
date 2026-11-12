@@ -597,7 +597,7 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --turn: 1ms; }
+  :root { --turn: 480ms; }
   .view.is-entering { animation: none; }
 }
 
@@ -608,3 +608,39 @@ body.gallery-lock .stage, body.gallery-lock .sidebar, body.gallery-lock .topbar 
 .cover__title, .sheet__title { text-transform: uppercase; letter-spacing: .01em; }
 .cover__title { font-size: clamp(32px, 4.2vw, 64px); }
 .sheet__title { font-size: clamp(30px, 4.2vw, 52px); }
+
+/* =========================================================
+   Tamaños relativos a la hoja (no a la pantalla)
+   Corrige cortes en portátiles con poca altura o escalado de Windows.
+   ========================================================= */
+.face { container-type: size; }
+.cover__title  { font-size: clamp(20px, 9.5cqi, 64px); }
+.cover__note   { font-size: clamp(15px, 4cqi, 22px); }
+.cover__img    { height: 40%; }
+.leaf__meta    { font-size: clamp(9px, 2cqi, 11px); margin-bottom: clamp(8px, 2.6cqh, 14px); }
+.frame__title  { font-size: clamp(16px, 5.4cqi, 30px); }
+.frame__text   { font-size: clamp(11px, 2.4cqi, 13px); }
+.frame__caption { padding: clamp(8px, 2cqh, 14px) 2px clamp(10px, 2.4cqh, 16px); min-width: 0; }
+.frame__caption > * { min-width: 0; }
+.gallery-btn   { font-size: clamp(10.5px, 2.2cqi, 12px); padding: clamp(4px, 1cqh, 6px) 10px; }
+.notes__num    { font-size: clamp(36px, 15cqi, 92px); }
+.notes__title  { font-size: clamp(15px, 5cqi, 30px); }
+.notes__hand   { font-size: clamp(13px, 3.6cqi, 21px); }
+.notes__body p { font-size: clamp(11px, 2.5cqi, 14px); }
+.quote p       { font-size: clamp(13px, 3.6cqi, 20px) !important; }
+.notes__tags li { font-size: clamp(9.5px, 2cqi, 11px); padding: 3px 8px; }
+.endpaper h2   { font-size: clamp(22px, 8cqi, 52px); }
+.endpaper      { gap: clamp(10px, 3cqh, 18px); }
+
+/* Hojas pequeñas: el pie del marco pasa a una sola columna */
+@container (max-width: 380px) {
+  .frame__caption { grid-template-columns: 1fr; }
+  .frame__caption .frame__text { grid-column: 1; }
+  .frame__num { display: none; }
+  .gallery-btn { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 4px; }
+}
+
+/* Acerca de mí y Contacto: el título se mide contra su columna */
+.sheet, .sheet__text { container-type: inline-size; }
+.sheet__title { font-size: clamp(24px, 8cqi, 52px); }
+.sheet__text  { padding: clamp(24px, 7cqi, 60px); }
